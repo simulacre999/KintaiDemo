@@ -10,6 +10,7 @@ export const MonthlyAttendanceWrapper = () => {
     const [open, setOpen] = useState(false);
     const [attendanceData, setAttendanceData] = useState<GetMonthlyAttendanceResponse | null>(null)
 
+    //TODO:スピナーを出す、awaitせずにPromiseの解決をreactに任せる
     const handleClickEvent = async () => {
        const data = (await axios.get('http://localhost:8080/api/attendance/monthly')).data as GetMonthlyAttendanceResponse
        setAttendanceData(data)

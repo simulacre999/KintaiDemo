@@ -37,7 +37,7 @@ export const MonthlyAttendanceTable = ({ response }: { response: GetMonthlyAtten
                         data.map(x => {
                             return (
                                 <TableRow>
-                                    <TableCell size='small'>{x.date}</TableCell>
+                                    <TableCell size='small'>{`${x.date}(${getDayJp(new Date(x.date).getDay())})`}</TableCell>
                                     <TableCell>{`${x.start_time} 〜 ${x.end_time}`}</TableCell>
                                     <TableCell>
                                         <BarGraph 
@@ -78,3 +78,17 @@ const style = {
     px: 4,
     pb: 3,
 };
+
+export const dayOfWeek = [
+    '日',
+    '月',
+    '火',
+    '水',
+    '木',
+    '金',
+    '土'
+]
+
+const getDayJp = (index:number) => {
+    return dayOfWeek[index]
+}
