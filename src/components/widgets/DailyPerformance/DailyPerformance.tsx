@@ -7,9 +7,9 @@ import { useState } from "react"
 import { sum } from "../../../Utilts"
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DateCalendar, type DateView } from "@mui/x-date-pickers"
+import { DateCalendar } from "@mui/x-date-pickers"
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import type { PickerSelectionState, PickerValue } from "@mui/x-date-pickers/internals"
+import type { PickerValue } from "@mui/x-date-pickers/internals"
 import dayjs from "dayjs"
 
 export const DailyPerformance = () => {
