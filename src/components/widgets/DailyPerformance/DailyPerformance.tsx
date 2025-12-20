@@ -5,12 +5,20 @@ import { PjPerformanceList } from "../../PjPerformanceList"
 import Button from "@mui/material/Button"
 import { useState } from "react"
 import { sum } from "../../../Utilts"
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DateCalendar, type DateView } from "@mui/x-date-pickers"
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import type { PickerSelectionState, PickerValue } from "@mui/x-date-pickers/internals"
+import dayjs from "dayjs"
 
 export const DailyPerformance = () => {
 
     const [performance, setPerformance] = useState([0, 0, 0])
     const [biko, setBiko] = useState('')
     const [errors, setErrors] = useState<string[]>([]);
+    const [showCalendar, setShowCalendar] = useState(false)
+    const [date, setDate] = useState(dayjs(new Date()))
 
     const rules = [
         {
@@ -24,8 +32,8 @@ export const DailyPerformance = () => {
      * @param e 
      * @param index 
      */
-    const handleChangePerformance = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index: number) => {
-        performance[index] = parseFloat(e.target.value)
+    const handleChangePerformance = (e: React.ChangeEvent<HTMLInputElement> | Event & { target: { value: unknown; name: string; }; }, index: number) => {
+        performance[index] = parseFloat(e.target.value as string)
         setPerformance(_ => performance)
         const errorMessages = rules.filter(x => x.rule()).map(x => x.message)
         setErrors(errorMessages);
@@ -41,12 +49,48 @@ export const DailyPerformance = () => {
         const errorMessages = rules.filter(x => x.rule()).map(x => x.message)
         setErrors(errorMessages);
     }
+
+    /**
+     * カレンダーボタンのクリックイベントをハンドルします
+     */
+    const handleClickCalendar = () => {
+        setShowCalendar(true)
+    }
+
+    /**
+     * カレンダーの選択イベントをハンドルします
+     * @param value 
+     */
+    const handleChangeDate = (value:PickerValue) => {
+        console.log(value?.toDate())
+        setDate(dayjs(value?.toDate()))
+        setShowCalendar(false)
+    }
+
     return (
 
         <Item>
             <span style={{ fontSize: 20 }}>
-                日次稼働実績({new Date().toLocaleDateString('sv-SE')})
+                日次稼働実績（{date.toDate().toLocaleDateString('sv-SE')}）
             </span>
+            <button style={{backgroundColor:'grey', padding:'0 0 0 0', border:'none', marginLeft:'5px'}} onClick={handleClickCalendar}>
+                <CalendarMonthIcon/>
+            </button>
+            {
+                showCalendar ?
+                    <div style={{position:'relative', backgroundColor:'white'}}>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            {/* <DatePicker /> */}
+                            <DateCalendar
+                                sx={{position:'absolute', top:0, left:'50%', backgroundColor:'white', border:'1px grey solid', zIndex:100}}
+                                onChange={(value) => handleChangeDate(value)}
+                                value={date}
+                            />
+                        </LocalizationProvider>
+                    </div>
+                    :
+                    null
+            }
             <div style={{ display: 'flex', marginTop: '10px', height: '80px' }}>
                 <div style={{ marginRight: 'auto', display: 'block' }}>
                     <div>
@@ -82,7 +126,7 @@ export const DailyPerformance = () => {
                     </div>
                     <PjPerformanceList handleChangePerformance={handleChangePerformance} />
                 </div>
-                <div style={{ marginRight: 'auto', marginTop: '10px', width: '50%', marginLeft: '50px' }}>
+                <div style={{ marginRight: 'auto', marginTop: '10px', width: '45%', marginLeft: '50px' }}>
                     <TextField
                         id="standard-multiline-static"
                         label="備考"
@@ -125,60 +169,60 @@ const Shuseijiko = ({ errors }: { errors: string[] }) => {
 }
 
 const time = [
-  {
-    value: '10:00',
-    label: '10:00'
-  },
-  {
-    value: '11:00',
-    label: '11:00'
-  },
-  {
-    value: '12:00',
-    label: '12:00'
-  },
-  {
-    value: '13:00',
-    label: '13:00'
-  },
-  {
-    value: '14:00',
-    label: '14:00'
-  },
-  {
-    value: '15:00',
-    label: '15:00'
-  },
-  {
-    value: '16:00',
-    label: '16:00'
-  },
-  {
-    value: '17:00',
-    label: '17:00'
-  },
-  {
-    value: '18:00',
-    label: '18:00'
-  },
-  {
-    value: '18:30',
-    label: '18:30'
-  },
-  {
-    value: '19:00',
-    label: '19:00'
-  },
-  {
-    value: '20:00',
-    label: '20:00'
-  },
-  {
-    value: '21:00',
-    label: '21:00'
-  },
-  {
-    value: '22:00',
-    label: '22:00'
-  },
+    {
+        value: '10:00',
+        label: '10:00'
+    },
+    {
+        value: '11:00',
+        label: '11:00'
+    },
+    {
+        value: '12:00',
+        label: '12:00'
+    },
+    {
+        value: '13:00',
+        label: '13:00'
+    },
+    {
+        value: '14:00',
+        label: '14:00'
+    },
+    {
+        value: '15:00',
+        label: '15:00'
+    },
+    {
+        value: '16:00',
+        label: '16:00'
+    },
+    {
+        value: '17:00',
+        label: '17:00'
+    },
+    {
+        value: '18:00',
+        label: '18:00'
+    },
+    {
+        value: '18:30',
+        label: '18:30'
+    },
+    {
+        value: '19:00',
+        label: '19:00'
+    },
+    {
+        value: '20:00',
+        label: '20:00'
+    },
+    {
+        value: '21:00',
+        label: '21:00'
+    },
+    {
+        value: '22:00',
+        label: '22:00'
+    },
 ]

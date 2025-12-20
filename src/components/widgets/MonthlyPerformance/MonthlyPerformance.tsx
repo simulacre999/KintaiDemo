@@ -19,7 +19,7 @@ export const MonthlyPerformance = () => {
     return (
         <Item>
             <span style={{ fontSize: 20 }}>
-                12月PJ別稼働時間
+                {`${new Date().getMonth() + 1}月PJ別稼働時間`}
             </span>
             <List dense={false}>
                 {

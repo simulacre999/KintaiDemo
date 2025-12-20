@@ -80,7 +80,7 @@ function App() {
 
   return (
     <div>
-      <header style={{ textAlign: 'right' }}>
+      <header style={{ textAlign: 'right', height:'90px' }}>
         <PjContext value={contextValue}>
           <SettingModal />
         </PjContext>

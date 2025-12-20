@@ -2,11 +2,15 @@ import List from "@mui/material/List"
 import ListItem from "@mui/material/ListItem"
 import ListItemIcon from "@mui/material/ListItemIcon"
 import MenuItem from "@mui/material/MenuItem"
-import TextField from "@mui/material/TextField"
 import { PjContext } from "../App"
 import { use } from "react"
+import { range } from "../Utilts"
+import FormControl from "@mui/material/FormControl"
+import FormHelperText from "@mui/material/FormHelperText"
+import Select from "@mui/material/Select"
 
-export const PjPerformanceList = ({ handleChangePerformance }: { handleChangePerformance: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index: number) => void }) => {
+
+export const PjPerformanceList = ({ handleChangePerformance }: { handleChangePerformance: (e: React.ChangeEvent<HTMLInputElement> | Event & { target: { value: unknown; name: string; }; }, index: number) => void }) => {
 
   const context = use(PjContext)
   if (!context) {
@@ -26,19 +30,30 @@ export const PjPerformanceList = ({ handleChangePerformance }: { handleChangePer
               <ListItemIcon sx={{ width: '100px' }}>
                 {pj.pj_name}
               </ListItemIcon>
-              <TextField
-                id="outlined-select-currency"
-                select
-                label="Select"
-                helperText="稼働時間を入力してください"
-                onChange={(e) => handleChangePerformance(e, index)}
+              <FormControl
+                sx={{m:1, width:'200px'}}
               >
-                {performTime.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </TextField>
+                <FormHelperText>稼働実績を入力してください</FormHelperText>
+                <Select
+                  labelId={`select-daily-performance-${index}`}
+                  onChange={(e) => handleChangePerformance(e, index)}
+                  MenuProps={
+                    {
+                      PaperProps:{
+                        style:{
+                          maxHeight:'200px'
+                        }
+                      }
+                    }
+                  }
+                >
+                  {performTime.map((option) => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
             </ListItem>
           )
         })
@@ -47,33 +62,9 @@ export const PjPerformanceList = ({ handleChangePerformance }: { handleChangePer
   )
 }
 
-const performTime = [
-  {
-    value: 0.5,
-    label: '0.5H'
-  },
-  {
-    value: 1,
-    label: '1H'
-  },
-  {
-    value: 1.5,
-    label: '1.5H'
-  },
-  {
-    value: 2,
-    label: '2H'
-  },
-  {
-    value: 2.5,
-    label: '2.5H'
-  },
-  {
-    value: 3,
-    label: '3.5H'
-  },
-  {
-    value: 3.5,
-    label: '3.5H'
-  },
-]
+const performTime = range(0, 24, 0.25).map(x => {
+  return {
+    value:x,
+    label:`${x}H`
+  }
+})

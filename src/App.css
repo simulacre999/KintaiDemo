@@ -53,3 +53,15 @@
 .read-the-docs {
   color: #888;
 }
+
+@keyframes wakuten {
+  0% {
+      border: 5px double #fc4a1a;padding: 16px
+  }
+  100% {
+     border: 5px solid #ffffff;padding: 16px
+  }
+}
+.border-blink{
+    animation: wakuten 1s linear infinite alternate;
+}
