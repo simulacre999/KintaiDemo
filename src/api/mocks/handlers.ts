@@ -31,7 +31,7 @@ export const handlers = [
     )
   }),
   //日次勤怠入力
-  http.post<{ '': '' }, UpdatePerformanceRequest, UpdatePerformanceResponse>('https://api.example.com/api/update/performance/day', async ({ request }) => {
+  http.post<{ '': '' }, UpdatePerformanceRequest, UpdatePerformanceResponse>('https://api.example.com/api/update/performance/day', async () => {
 
     //リクエスト例
     // const body = await request.json();
