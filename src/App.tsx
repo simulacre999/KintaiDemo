@@ -10,10 +10,11 @@ import type { GetAllPjResponse, PJ } from './api/schema';
 import axios from 'axios';
 import { worker } from './api/mocks/browser.ts'
 import { PjPerformanceList } from './components/PjPerformanceList.tsx';
+import { MonthlyAttendanceWrapper } from './components/widgets/MonthlyAttendance/MonthlyAttendanceWarpper.tsx';
 
 await worker.start()
 
-const Item = styled(Paper)(({ theme }) => ({
+export const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: '#fff',
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -126,10 +127,10 @@ function App() {
         </PjContext>
       </header>
       <Grid container spacing={10} size='grow' >
-        <Grid size={{ xs: 7, md: 8 }} sx={{minHeight:'500px'}} className='hover-card'>
+        <Grid size={{ xs: 7, md: 8 }} sx={{ minHeight: '500px' }} className='hover-card'>
           <Item>
             <span style={{ fontSize: 20 }}>
-              日次稼働実績
+              日次稼働実績({new Date().toLocaleDateString('sv-SE')})
             </span>
             <div style={{ display: 'flex', marginTop: '10px', height: '80px' }}>
               <div style={{ marginRight: 'auto', display: 'block' }}>
@@ -215,6 +216,15 @@ function App() {
                         id="standard-disabled"
                         defaultValue="40H"
                         variant="standard"
+                        slotProps={
+                          {
+                            htmlInput: {
+                              style: {
+                                textAlign: 'center'
+                              }
+                            }
+                          }
+                        }
                       />
                     </ListItem>
                   )
@@ -224,11 +234,7 @@ function App() {
           </Item>
         </Grid>
         <Grid size={{ xs: 6, md: 4 }} className='hover-card'>
-          <Item>
-            <span style={{ fontSize: 20 }}>
-              月次勤怠
-            </span>
-          </Item>
+            <MonthlyAttendanceWrapper/>
         </Grid>
         <Grid size={{ xs: 6, md: 8 }} className='hover-card'>
           <Item>
