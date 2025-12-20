@@ -54,7 +54,7 @@ type PJPerformance = {
 }
 
 type DailyPerformance = {
-    date: string, //yyyy-mm
+    date: string, //yyyy-mm-dd
     //勤務開始時刻
     start_time: string, //hh:mm
     //勤務終了時刻

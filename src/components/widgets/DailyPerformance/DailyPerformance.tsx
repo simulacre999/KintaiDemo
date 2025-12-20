@@ -1,9 +1,9 @@
 import TextField from "@mui/material/TextField"
-import { Item } from "../../../App"
+import { Item, PjContext } from "../../../App"
 import MenuItem from "@mui/material/MenuItem"
 import { PjPerformanceList } from "../../PjPerformanceList"
 import Button from "@mui/material/Button"
-import { useState } from "react"
+import { use, useState } from "react"
 import { sum } from "../../../Utilts"
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -12,9 +12,22 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import type { PickerValue } from "@mui/x-date-pickers/internals"
 import dayjs from "dayjs"
 
+/**
+ * 日時作業実績を入力するコンポーネントです
+ * @returns 
+ */
 export const DailyPerformance = () => {
 
-    const [performance, setPerformance] = useState([0, 0, 0])
+    const context = use(PjContext)
+    if (!context) {
+        return (
+            <></>
+        )
+    }
+
+    const { setting } = context
+
+    const [performance, setPerformance] = useState(setting.availablePjs.map(_ => 0))
     const [biko, setBiko] = useState('')
     const [errors, setErrors] = useState<string[]>([]);
     const [showCalendar, setShowCalendar] = useState(false)
@@ -61,28 +74,26 @@ export const DailyPerformance = () => {
      * カレンダーの選択イベントをハンドルします
      * @param value 
      */
-    const handleChangeDate = (value:PickerValue) => {
-        console.log(value?.toDate())
+    const handleChangeDate = (value: PickerValue) => {
         setDate(dayjs(value?.toDate()))
         setShowCalendar(false)
     }
 
     return (
-
         <Item>
             <span style={{ fontSize: 20 }}>
                 日次稼働実績（{date.toDate().toLocaleDateString('sv-SE')}）
             </span>
-            <button style={{backgroundColor:'grey', padding:'0 0 0 0', border:'none', marginLeft:'5px'}} onClick={handleClickCalendar}>
-                <CalendarMonthIcon/>
+            <button style={{ backgroundColor: 'grey', padding: '0 0 0 0', border: 'none', marginLeft: '5px' }} onClick={handleClickCalendar}>
+                <CalendarMonthIcon />
             </button>
             {
                 showCalendar ?
-                    <div style={{position:'relative', backgroundColor:'white'}}>
+                    <div style={{ position: 'relative', backgroundColor: 'white' }}>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             {/* <DatePicker /> */}
                             <DateCalendar
-                                sx={{position:'absolute', top:0, left:'50%', backgroundColor:'white', border:'1px grey solid', zIndex:100}}
+                                sx={{ position: 'absolute', top: 0, left: '50%', backgroundColor: 'white', border: '1px grey solid', zIndex: 100 }}
                                 onChange={(value) => handleChangeDate(value)}
                                 value={date}
                             />
