@@ -6,6 +6,7 @@ import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Box from "@mui/material/Box";
+import { BarGraph } from "../../BarGraph";
 
 /**
  * 月次勤怠テーブル
@@ -19,7 +20,6 @@ export const MonthlyAttendanceTable = ({ response }: { response: GetMonthlyAtten
     }
 
     const { data } = response
-    console.log(data)
 
     return (
         <Box sx={{ ...style, width:'40%', height:'50%' }}>
@@ -39,7 +39,22 @@ export const MonthlyAttendanceTable = ({ response }: { response: GetMonthlyAtten
                                 <TableRow>
                                     <TableCell size='small'>{x.date}</TableCell>
                                     <TableCell>{`${x.start_time} 〜 ${x.end_time}`}</TableCell>
-                                    <TableCell>作業割合</TableCell>
+                                    <TableCell>
+                                        <BarGraph 
+                                            setting={
+                                                {
+                                                    width:'400px',
+                                                    data:
+                                                        x.pj_performance.map(y => {
+                                                            return {
+                                                                label:y.pj_name,
+                                                                value:y.time
+                                                            }
+                                                        })
+                                                }
+                                            }
+                                        />
+                                    </TableCell>
                                 </TableRow>
                             )
                         })

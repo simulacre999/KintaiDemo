@@ -6,10 +6,9 @@ import TextField from "@mui/material/TextField"
 import { PjContext } from "../App"
 import { use } from "react"
 
-export const PjPerformanceList = () => {
+export const PjPerformanceList = ({ handleChangePerformance }: { handleChangePerformance: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index: number) => void }) => {
 
   const context = use(PjContext)
-  console.log(context)
   if (!context) {
     return (
       <></>
@@ -19,9 +18,9 @@ export const PjPerformanceList = () => {
   const { setting } = context
 
   return (
-    <List dense={false} sx={{ maxHeight: '300px', width: '100%', overflow:'auto', position:'relative' }}>
+    <List dense={false} sx={{ maxHeight: '300px', width: '100%', overflow: 'auto', position: 'relative' }}>
       {
-        setting.availablePjs.map((pj) => {
+        setting.availablePjs.map((pj, index: number) => {
           return (
             <ListItem key={pj.pj_id} sx={{ width: '100%' }}>
               <ListItemIcon sx={{ width: '100px' }}>
@@ -32,7 +31,7 @@ export const PjPerformanceList = () => {
                 select
                 label="Select"
                 helperText="稼働時間を入力してください"
-              // onChange={(e) => handleChangePerformance(e, index)}
+                onChange={(e) => handleChangePerformance(e, index)}
               >
                 {performTime.map((option) => (
                   <MenuItem key={option.value} value={option.value}>
