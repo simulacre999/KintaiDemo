@@ -84,8 +84,8 @@ export const DailyPerformance = () => {
             <span style={{ fontSize: 20 }}>
                 日次稼働実績（{date.toDate().toLocaleDateString('sv-SE')}）
             </span>
-            <button style={{ backgroundColor: 'grey', padding: '0 0 0 0', border: 'none', marginLeft: '5px' }} onClick={handleClickCalendar}>
-                <CalendarMonthIcon />
+            <button style={{ backgroundColor: 'white', padding: '0 0 0 0', border: 'none', marginLeft: '5px' }} onClick={handleClickCalendar}>
+                <CalendarMonthIcon color="action"/>
             </button>
             {
                 showCalendar ?

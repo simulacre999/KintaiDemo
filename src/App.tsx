@@ -48,7 +48,6 @@ const allpj = ((await axios.get('http://localhost:8080/api/pj/all')).data as Get
 
 function App() {
 
-
   const [availablePjs, setPjs] = useState<PJ[]>([])
 
   /**
