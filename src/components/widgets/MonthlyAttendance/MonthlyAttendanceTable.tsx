@@ -22,9 +22,9 @@ export const MonthlyAttendanceTable = ({ response }: { response: GetMonthlyAtten
     const { data } = response
 
     return (
-        <Box sx={{ ...style, width:'40%', height:'50%' }}>
+        <Box sx={{ ...style, width:'1500px',height:'70%'}}>
             <TableContainer sx={{maxHeight:'100%'}}>
-            <Table sx={{ height: '100%', width: '100%', overflow:'auto', position:'relative' }}>
+            <Table sx={{ height: '100%', width: '100%', overflow:'auto', position:'relative'}}>
                 <TableHead>
                     <TableRow>
                         <TableCell sx={{width:'100px'}}>日付</TableCell>
@@ -37,13 +37,13 @@ export const MonthlyAttendanceTable = ({ response }: { response: GetMonthlyAtten
                         data.map(x => {
                             return (
                                 <TableRow>
-                                    <TableCell size='small'>{`${x.date}(${getDayJp(new Date(x.date).getDay())})`}</TableCell>
-                                    <TableCell>{`${x.start_time} 〜 ${x.end_time}`}</TableCell>
+                                    <TableCell size='small' sx={{width:'300px'}}>{`${x.date}(${getDayJp(new Date(x.date).getDay())})`}</TableCell>
+                                    <TableCell sx={{width:'400px'}}>{`${x.start_time} 〜 ${x.end_time}`}</TableCell>
                                     <TableCell>
                                         <BarGraph 
                                             setting={
                                                 {
-                                                    width:'400px',
+                                                    width:'700px',
                                                     data:
                                                         x.pj_performance.map(y => {
                                                             return {
@@ -67,13 +67,14 @@ export const MonthlyAttendanceTable = ({ response }: { response: GetMonthlyAtten
 }
 
 const style = {
-    position: 'absolute',
-    top: '40%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
+    // position: 'absolute',
+    // top: '75%',
+    // left: '55%',
+    // width:'1500px',
+    // transform: 'translate(-50%, -50%)',
+    // bgcolor: 'background.paper',
+    // border: '1px solid #f6f6f6',
+    // boxShadow: 24,
     pt: 2,
     px: 4,
     pb: 3,

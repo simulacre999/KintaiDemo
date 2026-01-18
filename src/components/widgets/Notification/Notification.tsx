@@ -4,7 +4,7 @@ import ListItem from "@mui/material/ListItem"
 
 export const Notification = () => {
     return (
-        <Item>
+        <Item sx={{backgroundColor:'white'}}>
             <span style={{ fontSize: 20 }}>
                 お知らせ
             </span>

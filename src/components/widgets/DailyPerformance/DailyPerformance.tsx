@@ -80,7 +80,7 @@ export const DailyPerformance = () => {
     }
 
     return (
-        <Item>
+        <Item sx={{backgroundColor:'white'}}>
             <span style={{ fontSize: 20 }}>
                 日次稼働実績（{date.toDate().toLocaleDateString('sv-SE')}）
             </span>

@@ -22,7 +22,7 @@ export const PjPerformanceList = ({ handleChangePerformance }: { handleChangePer
   const { setting } = context
 
   return (
-    <List dense={false} sx={{ maxHeight: '300px', width: '100%', overflow: 'auto', position: 'relative' }}>
+    <List dense={false} sx={{ maxHeight: '400px', width: '100%', overflow: 'auto', position: 'relative' }}>
       {
         setting.availablePjs.map((pj, index: number) => {
           return (

@@ -36,7 +36,7 @@ export const SettingModal = () => {
     }
 
     return (
-        <>  
+        <div style={{marginLeft:'auto', height:'90px'}}>
             {
                 setting.availablePjs.length ? 
                 <button style={{ backgroundColor: 'transparent', marginBottom: '10px', border:'5px' }} onClick={() => setOpen(true)}>
@@ -94,7 +94,7 @@ export const SettingModal = () => {
                     </Table>
                 </Box>
             </Modal>
-        </>
+        </div>  
     )
 }
 
