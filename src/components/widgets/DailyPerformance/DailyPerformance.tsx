@@ -185,7 +185,7 @@ const dateInMonthFactory = (date:Date) => {
     const month = date.getMonth() + 1
     const year = date.getFullYear()
     const lastDay = (() => {
-        if(thirtyDayMonths.find(x => x = month)){
+        if(thirtyDayMonths.find(x => x === month)){
             return 31
         }
 

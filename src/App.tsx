@@ -148,7 +148,7 @@ function App() {
         <Header/>
       </PjContext>
       <div style={{display:'flex'}}>
-        <Drawer open variant="permanent" sx={{height:'850px', backgroundColor:'grey'}}> 
+        <Drawer open variant="permanent" sx={{height:'800px', backgroundColor:'grey'}}> 
           <List sx={{marginTop:'90px', width:'200px',height:'100%' ,backgroundColor:'#f8f8f8'}}>
               {
                 manuConfig.map((x, index) => {
