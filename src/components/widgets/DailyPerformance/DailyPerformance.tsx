@@ -3,14 +3,10 @@ import { Item, PjContext } from "../../../App"
 import MenuItem from "@mui/material/MenuItem"
 import { PjPerformanceList } from "../../PjPerformanceList"
 import Button from "@mui/material/Button"
-import { use, useState } from "react"
-import { sum } from "../../../Utilts"
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DateCalendar } from "@mui/x-date-pickers"
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import type { PickerValue } from "@mui/x-date-pickers/internals"
+import { use, useRef, useState } from "react"
+import { getDayJp, range, sum } from "../../../Utilts"
 import dayjs from "dayjs"
+import Box from '@mui/material/Box';
 
 /**
  * 日時作業実績を入力するコンポーネントです
@@ -30,7 +26,6 @@ export const DailyPerformance = () => {
     const [performance, setPerformance] = useState(setting.availablePjs.map(_ => 0))
     const [biko, setBiko] = useState('')
     const [errors, setErrors] = useState<string[]>([]);
-    const [showCalendar, setShowCalendar] = useState(false)
     const [date, setDate] = useState(dayjs(new Date()))
 
     const rules = [
@@ -63,20 +58,21 @@ export const DailyPerformance = () => {
         setErrors(errorMessages);
     }
 
-    /**
-     * カレンダーボタンのクリックイベントをハンドルします
-     */
-    const handleClickCalendar = () => {
-        setShowCalendar(true)
-    }
+    const divRef = useRef<HTMLDivElement>(null)
 
-    /**
-     * カレンダーの選択イベントをハンドルします
-     * @param value 
-     */
-    const handleChangeDate = (value: PickerValue) => {
-        setDate(dayjs(value?.toDate()))
-        setShowCalendar(false)
+    const handleWheel:React.WheelEventHandler<HTMLDivElement> = (e) => {
+        if(!divRef){
+            return
+        }
+        
+        if(divRef.current){
+            // divRef.current.scrollLeft += e.deltaY
+            divRef.current.scrollTo(
+                {
+                    left:divRef.current.scrollLeft + e.deltaY
+                }
+            )
+        }
     }
 
     return (
@@ -84,26 +80,29 @@ export const DailyPerformance = () => {
             <span style={{ fontSize: 20 }}>
                 日次稼働実績（{date.toDate().toLocaleDateString('sv-SE')}）
             </span>
-            <button style={{ backgroundColor: 'white', padding: '0 0 0 0', border: 'none', marginLeft: '5px' }} onClick={handleClickCalendar}>
-                <CalendarMonthIcon color="action"/>
-            </button>
-            {
-                showCalendar ?
-                    <div style={{ position: 'relative', backgroundColor: 'white' }}>
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            {/* <DatePicker /> */}
-                            <DateCalendar
-                                sx={{ position: 'absolute', top: 0, left: '50%', backgroundColor: 'white', border: '1px grey solid', zIndex: 100 }}
-                                onChange={(value) => handleChangeDate(value)}
-                                value={date}
-                            />
-                        </LocalizationProvider>
-                    </div>
-                    :
-                    null
-            }
-            <div style={{ display: 'flex', marginTop: '10px', height: '80px' }}>
-                <div style={{ marginRight: 'auto', display: 'block' }}>
+            <div onWheel={handleWheel} style={{display:'flex', width:'80%', height:'90px', marginTop:'50px',overflowX:'scroll', marginLeft:'auto', marginRight:'auto'}}  ref={divRef}>
+                {
+                    dateInMonthFactory(date.toDate()).map(x => {
+                        return (
+                            <Box sx={{marginRight:'10px'}}>
+                                <Button
+                                    variant="contained"
+                                    onClick={() => setDate(dayjs(x))}
+                                    color={x.getDate() === date.date() ? 'success' : 'primary'}
+                                >
+                                    {
+                                        `${x.getMonth() + 1}/${x.getDate()}
+                                                (${getDayJp(x)})`
+                                    }
+                                </Button>
+                            </Box>
+
+                        )
+                    })
+                }
+            </div>
+            <div style={{ display: 'flex', marginTop: '50px', height: '80px' }}>
+                <div style={{marginLeft:'200px' ,marginRight: 'auto', display: 'block' }}>
                     <div>
                         <TextField
                             id="outlined-select-currency"
@@ -158,7 +157,6 @@ export const DailyPerformance = () => {
     )
 }
 
-
 const Shuseijiko = ({ errors }: { errors: string[] }) => {
 
     return (
@@ -178,6 +176,38 @@ const Shuseijiko = ({ errors }: { errors: string[] }) => {
         </div>
     )
 }
+
+/**
+ * 指定の月の各日のDateオブジェクトを返します
+ * @param date 
+ */
+const dateInMonthFactory = (date:Date) => {
+    const month = date.getMonth() + 1
+    const year = date.getFullYear()
+    const lastDay = (() => {
+        if(thirtyDayMonths.find(x => x = month)){
+            return 31
+        }
+
+        if(month == 2 && new Date(year, 2, 0).getDate() === 29){
+            return 29
+        }
+
+        if(month == 2){
+            return 28
+        }
+        return 30
+
+    })()
+
+    return range(1, lastDay + 1, 1).map(day => {
+        return new Date(year, month - 1, day)
+    })
+}
+
+const thirtyDayMonths = [
+    1,3,5,7,8,10,12
+]
 
 const time = [
     {

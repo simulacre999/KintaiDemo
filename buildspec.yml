@@ -1,0 +1,13 @@
+phases:
+  pre_build:
+    on-failure: ABORT | CONTINUE | RETRY | RETRY-count | RETRY-regex | RETRY-count-regex
+    commands:
+      - npm run install
+  build:
+    on-failure: ABORT | CONTINUE | RETRY | RETRY-count | RETRY-regex | RETRY-count-regex
+    commands:
+      - npm run build
+artifacts:
+  files:
+  - dist/**/*
+  s3-prefix: '出力するS3のバケット？を決め打ちしておく'

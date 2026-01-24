@@ -179,24 +179,6 @@ function App() {
             {selectedComponent.component} 
           </PjContext>
         </Grid>
-        {/* <Grid container spacing={10} size='grow' >
-          <Grid size={{ xs: 7, md: 8 }} sx={{ minHeight: '500px' }} className='hover-card'>
-            <PjContext value={contextValue}>
-              <DailyPerformance />
-            </PjContext>
-          </Grid>
-          <Grid size={{ xs: 6, md: 4 }} className='hover-card'>
-            <PjContext value={contextValue}>
-              <MonthlyPerformance/>
-            </PjContext>
-          </Grid>
-          <Grid size={{ xs: 6, md: 4 }} className='hover-card'>
-            <MonthlyAttendanceWrapper />
-          </Grid>
-          <Grid size={{ xs: 6, md: 8 }} className='hover-card'>
-            <Notification/>
-          </Grid>
-        </Grid> */}
       </div>
     </>
   );

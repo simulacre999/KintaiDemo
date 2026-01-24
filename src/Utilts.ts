@@ -19,3 +19,12 @@ export const range = (start:number, stop:number, step:number) => {
       (_, i) => start + i * step,
     );
 }
+
+const dayFormat = new Intl.DateTimeFormat("ja-JP", {weekday:'short'})
+
+/**
+ * 曜日を取得します
+ */
+export const getDayJp = (date:Date) => {
+  return dayFormat.format(date)
+}
